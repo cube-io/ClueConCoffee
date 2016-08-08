@@ -29,22 +29,29 @@ mqttClient.on("message", function(topic, message) {
         smsClient.send(to, from, seatNumber)
         .then(function(result) {
             console.log("Sent message from " + from + " to " + to + " with body: " + seatNumber, result.id);
+            greenFlash();
             return;
         });
     }
 
     if(data.body === "Your order has been received!") {
+        green.set(1);
         return startRedFlash();
     }
 
     if(data.body === "Enjoy your Flow Brew!") {
-        stopRedFlash();
-        return green.set(0);
+        green.set(0);
+        return stopRedFlash();
     }
 
     red.set(1);
     setTimeout(() => {red.set(0); }, 1000);
 });
+
+function greenFlash() {
+    green.set();
+    setTimeout(function() { green.reset(); }, 500);
+}
 
 var redFlashInterval;
 function startRedFlash() {
@@ -61,4 +68,5 @@ function stopRedFlash() {
 smsClient.send(to, from, "NITRO")
 .then(function(result) {
     console.log("Sent message from " + from + " to " + to + " with body: NITRO", result.id);
+    greenFlash();
 });

@@ -67,6 +67,8 @@ function stopRedFlash() {
     red.set(0);
 }
 
+button.on("change", buttonPressed);
+
 var lastPress = new Date();
 function buttonPressed(val) {
     var thisPress = new Date();

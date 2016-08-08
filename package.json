@@ -8,5 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "flowroute-sms": "^1.1.0",
+    "gpio": "^0.2.7",
+    "mqtt": "^1.13.0"
+  }
 }

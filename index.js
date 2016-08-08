@@ -9,11 +9,12 @@ var from = "12015354459";
 // var to = "12015354459";
 var to   = "17738015085";
 
+var orderInProgress = false;
 var green = gpio.export(18);
 var red = gpio.export(19);
-// // var button = gpio.export(17, {
-//     direction: "in"
-// });
+var button = gpio.export(17, {
+    direction: "in"
+});
 
 
 mqttClient.on("connect", function() {
@@ -41,6 +42,7 @@ mqttClient.on("message", function(topic, message) {
 
     if(data.body === "Enjoy your Flow Brew!") {
         green.set(0);
+        orderInProgress = false;
         return stopRedFlash();
     }
 
@@ -65,8 +67,25 @@ function stopRedFlash() {
     red.set(0);
 }
 
-smsClient.send(to, from, "NITRO")
-.then(function(result) {
-    console.log("Sent message from " + from + " to " + to + " with body: NITRO", result.id);
-    greenFlash();
-});
+var lastPress = new Date();
+function buttonPressed(val) {
+    var thisPress = new Date();
+    var duration = thisPress - lastPress;
+    lastPress = thisPress;
+    if(duration < 800) {
+        return;
+    }
+
+    if(orderInProgress) {
+        orderCoffee();
+    }
+}
+
+function orderCoffee() {
+    smsClient.send(to, from, "NITRO")
+    .then(function(result) {
+        orderInProgress = true;
+        console.log("Sent message from " + from + " to " + to + " with body: NITRO", result.id);
+        greenFlash();
+    });
+}

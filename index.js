@@ -8,8 +8,12 @@ var seatNumber = "F8";
 var from = "12015354459";
 // var to = "12015354459";
 var to   = "17738015085";
+
 var green = gpio.export(18);
 var red = gpio.export(19);
+// // var button = gpio.export(17, {
+//     direction: "in"
+// });
 
 
 mqttClient.on("connect", function() {
@@ -19,7 +23,7 @@ mqttClient.on("connect", function() {
 mqttClient.on("message", function(topic, message) {
     var data = JSON.parse(message.toString());
 
-    console.log(data.body)
+    console.log(data.body);
     if(data.body === "What is your seat number?") {
         console.log(seatNumber);
         smsClient.send(to, from, seatNumber)
@@ -30,18 +34,29 @@ mqttClient.on("message", function(topic, message) {
     }
 
     if(data.body === "Your order has been received!") {
-        green.set(1);
-        setTimeout(() => {green.set(0); }, 1000);
-        return;
+        return startRedFlash();
+    }
+
+    if(data.body === "Enjoy your Flow Brew!") {
+        stopRedFlash();
+        return green.set(0);
     }
 
     red.set(1);
     setTimeout(() => {red.set(0); }, 1000);
 });
 
-var button = gpio.export(17, {
-    direction: "in",
-});
+var redFlashInterval;
+function startRedFlash() {
+    redFlashInterval = setInterval(function() {
+        red.set();
+        setTimeout(function() { red.reset(); }, 500);
+    }, 1000);
+}
+function stopRedFlash() {
+    clearInterval(redFlashInterval);
+    red.set(0);
+}
 
 smsClient.send(to, from, "NITRO")
 .then(function(result) {

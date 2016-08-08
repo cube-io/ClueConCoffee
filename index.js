@@ -1,13 +1,12 @@
 var gpio = require("gpio");
-var mqtt    = require("mqtt");
-var mqttClient  = mqtt.connect("mqtt://test.mosquitto.org");
+var mqtt = require("mqtt");
+var mqttClient = mqtt.connect("mqtt://test.mosquitto.org");
 var FlowrouteSMS = require("flowroute-sms");
 var smsClient = new FlowrouteSMS("06394246", "kVGxBeat0WMoCazTU9BvQC0vjjeSedxe");
 
-var seatNumber = "F8";
-var from = "12015354459";
-// var to = "12015354459";
-var to   = "17738015085";
+var seatNumber = "F8";    // F denotes a fake table
+var from = "12015354459"; // own FlowRoute number
+var to = "17738015085";
 
 var orderInProgress = false;
 var green = gpio.export(18);
@@ -62,6 +61,7 @@ function startRedFlash() {
         setTimeout(function() { red.reset(); }, 500);
     }, 1000);
 }
+
 function stopRedFlash() {
     clearInterval(redFlashInterval);
     red.set(0);

@@ -2,7 +2,8 @@ var gpio = require("gpio");
 var mqtt = require("mqtt");
 var mqttClient = mqtt.connect("mqtt://test.mosquitto.org");
 var FlowrouteSMS = require("flowroute-sms");
-var smsClient = new FlowrouteSMS("06394246", "kVGxBeat0WMoCazTU9BvQC0vjjeSedxe");
+var config = require("./config.json");
+var smsClient = new FlowrouteSMS(config.accessKey, config.secretKey);
 
 var seatNumber = "F8";    // F denotes a fake table
 var from = "12015354459"; // own FlowRoute number

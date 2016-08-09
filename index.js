@@ -19,6 +19,7 @@ var button = gpio.export(17, {
 
 mqttClient.on("connect", function() {
     mqttClient.subscribe("fromFlowRouteCoffee");
+    console.log("subscribed to mqtt")
 });
 
 mqttClient.on("message", function(topic, message) {

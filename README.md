@@ -1,4 +1,4 @@
-# ClueConProjectX
+# ClueConCoffee
 Work done during the ClueCon 2016 Hack-a-Thon. 
 
 ## Coffee

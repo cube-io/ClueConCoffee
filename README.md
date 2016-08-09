@@ -18,3 +18,5 @@ response from FlowRoute, we use an open MQTT server and a small service for
 translating the HTTP POST callback from FlowRoute to an MQTT event. That way,
 the RPi can subscribe to a specific topic to get notified on a response text
 message.
+
+![Coffee Machine Setup](https://github.com/cube-io/ClueConCoffee/raw/master/public/coffeeRPi.jpg)

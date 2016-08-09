@@ -73,6 +73,7 @@ button.on("change", buttonPressed);
 
 var lastPress = new Date();
 function buttonPressed(val) {
+    console.log("Button: " + val);
     var thisPress = new Date();
     var duration = thisPress - lastPress;
     lastPress = thisPress;

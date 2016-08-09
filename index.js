@@ -79,7 +79,7 @@ function buttonPressed(val) {
         return;
     }
 
-    if(orderInProgress) {
+    if(!orderInProgress) {
         orderCoffee();
     }
 }
